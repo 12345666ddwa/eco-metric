@@ -1,0 +1,113 @@
+/* ============================================================
+   ui.css  ·  small set of interface components
+   Patterns adapted from Uiverse.io community components (MIT),
+   restyled to the Eco-Metric paper and ink tokens.
+   Kept local so the site stays static with no build step.
+   ============================================================ */
+
+/* ---- segmented tabs ---------------------------------------- */
+.tabs {
+  display: inline-flex;
+  border: 1px solid var(--ink);
+  margin: 0 0 16px;
+  background: transparent;
+}
+.tab {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--ink);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 140ms linear, color 140ms linear;
+}
+.tab:last-child { border-right: 0; }
+.tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+.tab:hover { background: var(--paper-2); }
+.tab[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+.tab[aria-selected="true"]::after { transform: scaleX(1); }
+
+/* ---- inline tip ------------------------------------------- */
+.ui-tip {
+  position: relative;
+  border-bottom: 1px dotted var(--muted);
+  cursor: help;
+}
+.ui-tip > span {
+  position: absolute;
+  left: 0;
+  bottom: 130%;
+  min-width: 160px;
+  max-width: 260px;
+  padding: 8px 10px;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 400;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 150ms linear, transform 150ms ease;
+  z-index: 20;
+}
+.ui-tip:hover > span { opacity: 1; transform: translateY(0); }
+
+/* ---- quiet button ----------------------------------------- */
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 150ms linear, color 150ms linear;
+}
+.ui-btn:hover { background: var(--ink); color: var(--paper); }
+
+/* ---- counter chip ----------------------------------------- */
+.ui-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+  font-family: var(--sans);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ui-count b {
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0;
+}
