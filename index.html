@@ -4,318 +4,49 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Eco-Metric · On Quality Education (SDG 4)</title>
-<meta name="description" content="A data story about the people who hold up quality education: teacher workload, burnout, and what a rested teacher gives back.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<meta name="description" content="Eco-Metric, a DataViz at MQ 2026 storyboard on quality education, teacher workload and what a rested teacher passes on.">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="vendor/ui.css">
 </head>
 <body>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <filter id="rough" x="-20%" y="-20%" width="140%" height="140%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.028" numOctaves="2" seed="7" result="noise"/>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.6" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    <filter id="rough-soft" x="-20%" y="-20%" width="140%" height="140%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="3" result="noise"/>
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
-    </filter>
-    <symbol id="d-apple" viewBox="0 0 120 120">
-      <path d="M60 26c10-12 32-12 40 2 9 16 3 52-13 66-8 7-15 2-27 2s-19 5-27-2C17 80 11 44 20 28c8-14 30-14 40-2Z"/>
-      <path d="M60 24c2-9 7-15 15-18"/>
-      <path d="M63 20c8-10 19-11 23-8-2 8-13 13-23 8Z"/>
-      <path d="M45 52c3 4 6 6 10 7"/>
-    </symbol>
-    <symbol id="d-pen" viewBox="0 0 120 120">
-      <path d="M22 100l8-26 52-52c5-5 12-5 17 0l5 5c5 5 5 12 0 17l-52 52-26 8Z"/>
-      <path d="M30 74l8 8"/><path d="M82 32l8 8"/>
-    </symbol>
-    <symbol id="d-book" viewBox="0 0 120 120">
-      <path d="M14 30c16-6 30-4 46 4 16-8 30-10 46-4v58c-16-6-30-4-46 4-16-8-30-10-46-4V30Z"/>
-      <path d="M60 34v58"/><path d="M26 46c8-2 16-1 24 3"/><path d="M26 58c8-2 16-1 24 3"/>
-      <path d="M70 49c8-4 16-5 24-3"/><path d="M70 61c8-4 16-5 24-3"/>
-    </symbol>
-    <symbol id="d-cup" viewBox="0 0 120 120">
-      <path d="M26 40h52v28c0 14-11 24-26 24S26 82 26 68V40Z"/>
-      <path d="M78 48h10c8 0 14 6 14 13s-6 13-14 13h-8"/>
-      <path d="M40 26c0-6 4-8 4-12"/><path d="M54 26c0-6 4-8 4-12"/><path d="M68 26c0-6 4-8 4-12"/>
-    </symbol>
-    <symbol id="d-stack" viewBox="0 0 120 120">
-      <path d="M24 36h72"/><path d="M20 50h72"/><path d="M26 64h68"/><path d="M22 78h70"/><path d="M28 92h64"/>
-    </symbol>
-    <symbol id="d-underline" viewBox="0 0 300 24">
-      <path d="M6 16c48-9 118-12 180-9 34 2 74 6 108 11"/>
-      <path d="M14 21c52-7 116-9 176-6 32 2 66 5 98 9" opacity=".5"/>
-    </symbol>
-  </defs>
-</svg>
-
-<div id="grain" aria-hidden="true"></div>
-<div id="folio" aria-hidden="true"><span id="folioNum">01</span></div>
-
-<nav id="rail" aria-label="Slide navigation">
-  <div class="rail-group">
-    <button class="jump" data-goto="4" title="Apple: jump to slide 5" aria-label="Jump to slide 5 (apple)">
-      <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough-soft)"><use href="#d-apple"/></svg>
-    </button>
-    <button class="jump" data-goto="5" title="Pen: jump to slide 6" aria-label="Jump to slide 6 (pen)">
-      <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough-soft)"><use href="#d-pen"/></svg>
-    </button>
-  </div>
+<div id="rail" aria-label="Slide navigation">
+  <button class="jump" data-goto="4" title="Apple: slide 5" aria-label="Go to slide 5">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 7.5c2.6-2 6.6-1 7.2 2.4.7 4.2-2.6 9.6-5.2 9.9-1 .1-1.4-.5-2-.5s-1 .6-2 .5C7.4 19.5 4.1 14.1 4.8 9.9 5.4 6.5 9.4 5.5 12 7.5Z"/><path d="M12 7.4c.2-2 1.3-3.4 3.1-4"/></svg>
+  </button>
   <div class="dots" id="dots" role="tablist" aria-label="Slides"></div>
-  <button id="present" class="present" title="Present mode (P)" aria-label="Toggle present mode">P</button>
-</nav>
-<div id="presentBar" aria-hidden="true"><i></i></div>
+  <button class="jump" data-goto="5" title="Pen: slide 6" aria-label="Go to slide 6">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 20l1.4-4.2L16.6 4.6a1.9 1.9 0 0 1 2.8 0l.6.6a1.9 1.9 0 0 1 0 2.8L8.8 18.6 4 20Z"/><path d="M15.2 6.6l2.8 2.8"/></svg>
+  </button>
+  <button id="present" title="Present mode (P)" aria-label="Toggle present mode">P</button>
+</div>
+
+<div id="counter"><b id="cur">01</b><span>/</span><span id="total">07</span></div>
+<div id="bar" aria-hidden="true"><i></i></div>
 
 <main id="deck">
-
-  <!-- 01 COVER -->
-  <section class="slide cover" id="s1" data-title="Cover">
-    <div class="wrap">
-      <div class="cover-grid">
-        <div>
-          <p class="eyebrow">DataViz @ MQ 2026<span class="sep">/</span>Goal 4</p>
-          <h1>Eco<br>Metric</h1>
-          <svg class="stroke-under" viewBox="0 0 300 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-underline"/></svg>
-          <p class="cover-sub">On Quality Education</p>
-          <p class="cover-lede">A data story about the people who hold it up, and what happens when they are running on four hours of sleep.</p>
-        </div>
-        <div class="cover-art">
-          <div class="art-block peach">
-            <svg class="apple-big" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" filter="url(#rough)"><use href="#d-apple"/></svg>
-          </div>
-          <p class="margin-note">every number<br>below is a person</p>
-        </div>
-      </div>
-      <div class="cover-foot">
-        <span>Macquarie University</span>
-        <span>School of Mathematical and Physical Sciences</span>
-        <span>Interactive submission</span>
-      </div>
-    </div>
+  <section class="slide" id="s1" data-title="Cover">
+    <img src="slides/p1.jpg" alt="Eco-Metric cover. Foundational Learning and Education Insights to Action." draggable="false">
   </section>
-
-  <!-- 02 WHO GETS TO GRADUATE -->
-  <section class="slide" id="s2" data-title="Who gets to graduate">
-    <div class="wrap">
-      <header class="sec">
-        <span class="sec-num">01</span>
-        <h2>Quality education starts before the classroom does</h2>
-      </header>
-      <div class="split wide-left">
-        <div>
-          <div class="quote-card">
-            <p class="quote-body">"True education does not cloy the mind with facts; it empowers the individual to reduce inequalities, drive gender equality, and foster tolerant societies."</p>
-            <p class="quote-by">Albert Einstein, attributed. Adopted by the United Nations on education.</p>
-          </div>
-          <div class="tabs" role="tablist" aria-label="View">
-            <button class="tab" role="tab" data-view="past" aria-selected="false">Past · 2021</button>
-            <button class="tab" role="tab" data-view="present" aria-selected="true">Present · 2026</button>
-            <button class="tab" role="tab" data-view="improve" aria-selected="false">Improve</button>
-          </div>
-          <div class="chart tall" id="chartWorkload" role="img" aria-label="Interactive chart: attrition, workload and marking hours"></div>
-          <p class="caption" id="viewNote">Switch views to move through time.</p>
-        </div>
-        <aside>
-          <div class="stat-block peach">
-            <span class="big-num">42<span class="unit">%</span></span>
-            <p class="caption">less likely to graduate if the student is food insecure.</p>
-          </div>
-          <p class="body-note">Hunger and learning are the same problem: a student who is not fed cannot stay in the room long enough to finish.</p>
-          <p class="src"><b>Source</b> Public Health Nutrition, 2022 cohort study on food insecurity and degree completion.</p>
-        </aside>
-      </div>
-    </div>
+  <section class="slide" id="s2" data-title="Scope">
+    <img src="slides/p2.jpg" alt="Scope, past, present, improve. Albert Einstein and UN quote on education, with the food insecurity statistic." draggable="false">
   </section>
-
-  <!-- 03 JUST ONE MORE REPORT -->
   <section class="slide" id="s3" data-title="Just one more report">
-    <div class="wrap">
-      <header class="sec">
-        <span class="sec-num">02</span>
-        <h2>Just one more report</h2>
-      </header>
-      <div class="split wide-left">
-        <div>
-          <blockquote class="pullquote">When I was teaching your classes, I slept no more than 4 hours a day.</blockquote>
-          <p class="attrib">NSW secondary school Enterprise Computing teacher, interviewed for this project.</p>
-          <p class="margin-note inline">this line is why the project exists</p>
-        </div>
-        <aside class="voices">
-          <p class="voices-label">What students said</p>
-          <ul>
-            <li><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-book"/></svg><span>Learning computers from a dusty chalkboard.</span></li>
-            <li><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-stack"/></svg><span>Can't afford the bus to class.</span></li>
-            <li><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-cup"/></svg><span>Fees paid with my mum's starvation.</span></li>
-          </ul>
-          <p class="src"><b>Source</b> Student and teacher interviews collected by the team.</p>
-        </aside>
-      </div>
-    </div>
+    <img src="slides/p3.jpg" alt="Just one more report. A teacher describes sleeping no more than four hours a day." draggable="false">
   </section>
-
-  <!-- 04 BURNOUT DASHBOARD -->
-  <section class="slide" id="s4" data-title="Teacher burnout is breaking the system">
-    <div class="wrap">
-      <header class="sec">
-        <span class="sec-num">03</span>
-        <h2>Teacher burnout is breaking our education system</h2>
-      </header>
-      <div class="stat-grid">
-        <div class="stat-block">
-          <span class="big-num acc">46.8<span class="unit">%</span></span>
-          <p class="caption">of teachers are considering leaving in the next 12 months, up from 14% in 2021.</p>
-        </div>
-        <div class="stat-block">
-          <span class="big-num">52<span class="unit">%</span></span>
-          <p class="caption">report moderate to severe symptoms of depression. General population baseline is 12%.</p>
-        </div>
-        <div class="stat-block">
-          <span class="big-num">70<span class="unit">%</span></span>
-          <p class="caption">say their workload is unmanageable.</p>
-        </div>
-        <div class="stat-block blue">
-          <span class="big-num">46.5<span class="unit">h</span></span>
-          <p class="caption">worked per week by a full-time Australian teacher, against an OECD average of 41 hours.</p>
-        </div>
-      </div>
-      <div class="chart wide" id="chartHours" role="img" aria-label="Weekly working hours: Australian teachers against the OECD average"></div>
-      <p class="src"><b>Source</b> TALIS 2024, OECD country note for Australia, and Black Dog Institute teacher mental health data.</p>
-    </div>
+  <section class="slide" id="s4" data-title="Teacher burnout">
+    <img src="slides/p4.jpg" alt="Teacher burnout numbers: workload, attrition, depression symptoms and working hours." draggable="false">
   </section>
-
-  <!-- 05 APPLE -->
   <section class="slide" id="s5" data-title="Appearances can be deceiving">
-    <div class="wrap">
-      <header class="sec">
-        <span class="sec-num">04</span>
-        <h2>Appearances can be deceiving</h2>
-      </header>
-      <div class="split">
-        <div>
-          <p class="deck-lede">When teachers burn out, students notice. When teachers thrive, students notice that too.</p>
-          <p>Feedback gets thinner. Lessons get reused. The room still runs, so the system reads it as fine. The children in it read it differently.</p>
-          <button class="doodle-btn" data-goto="5" data-collect="pen">
-            <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-pen"/></svg>
-            <span>Follow the pen</span>
-          </button>
-        </div>
-        <div class="art-block peach tall-block">
-          <svg class="art-mid" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" filter="url(#rough)"><use href="#d-apple"/></svg>
-          <p class="margin-note">what a teacher carries<br>walks into the room</p>
-        </div>
-      </div>
-      <p class="src"><b>Source</b> Team interviews with NSW teachers and students, 2026.</p>
-    </div>
+    <img src="slides/p5.jpg" alt="Appearances can be deceiving. When teachers burn out, students notice." draggable="false">
   </section>
-
-  <!-- 06 PEN -->
   <section class="slide" id="s6" data-title="One pen">
-    <div class="wrap">
-      <header class="sec">
-        <span class="sec-num">05</span>
-        <h2>The pen is the whole job in miniature</h2>
-      </header>
-      <div class="split wide-left">
-        <div>
-          <blockquote class="pullquote">One child, one teacher, one book, one pen can change the world.</blockquote>
-          <p class="attrib">Malala Yousafzai</p>
-          <p class="body-note">A pen is also where a teacher's week disappears: five minutes for a student to answer, ten to read it properly, ten more to write feedback that means anything.</p>
-          <button class="doodle-btn" data-goto="1">
-            <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-stack"/></svg>
-            <span>Back to the numbers</span>
-          </button>
-        </div>
-        <div class="art-block blue tall-block">
-          <svg class="art-mid" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" filter="url(#rough)"><use href="#d-pen"/></svg>
-          <p class="ledger-list mini">
-            <span>Student answers</span><b>5 min</b>
-          </p>
-          <p class="ledger-list mini">
-            <span>Teacher reads</span><b>10 min</b>
-          </p>
-          <p class="ledger-list mini">
-            <span>Teacher writes feedback</span><b>10 min</b>
-          </p>
-        </div>
-      </div>
-      <p class="src"><b>Source</b> Team interview, NSW secondary school Enterprise Computing teacher.</p>
-    </div>
+    <img src="slides/p6.jpg" alt="Malala Yousafzai quote on one child, one teacher, one pen and one book." draggable="false">
   </section>
-
-  <!-- 07 NEW CHAPTERS -->
   <section class="slide" id="s7" data-title="New chapters">
-    <div class="wrap">
-      <header class="sec">
-        <span class="sec-num">06</span>
-        <h2>A rested teacher's shelter and passion radiates to all</h2>
-      </header>
-      <div class="split wide-right">
-        <div>
-          <p class="deck-lede">The lever is not more hours. It is fewer hours on work that does not need a human, so the hours that do need a human become possible again.</p>
-          <p>Marking runs at 5.7 hours a week, roughly 228 hours a year. Halve it and 114 hours come back to lesson design, to feedback conversations, or simply to leaving work at work.</p>
-          <p class="margin-note inline">the resource already exists, inside the marking load</p>
-        </div>
-        <div>
-          <div class="chart small" id="chartMarking" role="img" aria-label="Marking hours per year, current and halved"></div>
-          <p class="caption">Arithmetic on the TALIS 2024 weekly figure across a 40 week year. A scenario, not a forecast.</p>
-        </div>
-      </div>
-      <p class="src"><b>Source</b> TALIS 2024 weekly marking hours. Annual figure and the halving scenario are our own arithmetic on a stated 40 week assumption.</p>
-    </div>
+    <img src="slides/p7.jpg" alt="New chapters. A rested teacher's shelter and passion radiates to all." draggable="false">
   </section>
-
-  <!-- 08 MALCOLM X -->
-  <section class="slide" id="s8" data-title="Close">
-    <div class="wrap">
-      <header class="sec">
-        <span class="sec-num">07</span>
-        <h2>Close</h2>
-      </header>
-      <blockquote class="pullquote">Education is the passport to the future, for tomorrow belongs to those who prepare for it today.</blockquote>
-      <p class="attrib">Malcolm X</p>
-      <p class="body-note wide-note">Preparing for tomorrow means keeping the people who teach it upright. That is the metric we are asking you to look at.</p>
-      <p class="src"><b>SDG</b> Goal 4, Quality Education. Targets 4.1, 4.5 and 4.c on teachers and learning outcomes.</p>
-    </div>
-  </section>
-
-  <!-- 09 CREDITS -->
-  <section class="slide" id="s9" data-title="Credits">
-    <div class="wrap">
-      <header class="sec">
-        <span class="sec-num">08</span>
-        <h2>Built for DataViz at MQ, 2026</h2>
-      </header>
-      <div class="credit-grid">
-        <div>
-          <h3>Dataset and method</h3>
-          <p>Public statistics on teacher workload and wellbeing: TALIS 2024 (OECD), Black Dog Institute, YouGov, and a 2022 Public Health Nutrition cohort study on food insecurity.</p>
-          <p>All figures hard coded. No live data connection.</p>
-        </div>
-        <div>
-          <h3>Team</h3>
-          <p>Alfonso Figueira</p>
-          <p>Udeshna Jyoti Dongol</p>
-          <p>Trang Phuc Hanh Mai</p>
-          <p>Xing Gao</p>
-        </div>
-        <div>
-          <h3>Built with</h3>
-          <p>Static HTML, CSS and JavaScript</p>
-          <p>Apache ECharts for the charts</p>
-          <p>Interface components adapted from Uiverse</p>
-          <p>Goal 4, Quality Education</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
 </main>
 
-<script src="vendor/echarts.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
