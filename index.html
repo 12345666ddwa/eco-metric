@@ -7,13 +7,12 @@
 <meta name="description" content="A data story about the people who hold up quality education: teacher workload, burnout, and what a rested teacher gives back.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="vendor/ui.css">
 </head>
-<body class="is-loading">
+<body>
 
-<!-- shared svg defs: hand drawn wobble -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <filter id="rough" x="-20%" y="-20%" width="140%" height="140%">
@@ -32,33 +31,20 @@
     </symbol>
     <symbol id="d-pen" viewBox="0 0 120 120">
       <path d="M22 100l8-26 52-52c5-5 12-5 17 0l5 5c5 5 5 12 0 17l-52 52-26 8Z"/>
-      <path d="M30 74l8 8"/>
-      <path d="M82 32l8 8"/>
+      <path d="M30 74l8 8"/><path d="M82 32l8 8"/>
     </symbol>
     <symbol id="d-book" viewBox="0 0 120 120">
       <path d="M14 30c16-6 30-4 46 4 16-8 30-10 46-4v58c-16-6-30-4-46 4-16-8-30-10-46-4V30Z"/>
-      <path d="M60 34v58"/>
-      <path d="M26 46c8-2 16-1 24 3"/>
-      <path d="M26 58c8-2 16-1 24 3"/>
-      <path d="M70 49c8-4 16-5 24-3"/>
-      <path d="M70 61c8-4 16-5 24-3"/>
+      <path d="M60 34v58"/><path d="M26 46c8-2 16-1 24 3"/><path d="M26 58c8-2 16-1 24 3"/>
+      <path d="M70 49c8-4 16-5 24-3"/><path d="M70 61c8-4 16-5 24-3"/>
     </symbol>
     <symbol id="d-cup" viewBox="0 0 120 120">
       <path d="M26 40h52v28c0 14-11 24-26 24S26 82 26 68V40Z"/>
       <path d="M78 48h10c8 0 14 6 14 13s-6 13-14 13h-8"/>
-      <path d="M40 26c0-6 4-8 4-12"/>
-      <path d="M54 26c0-6 4-8 4-12"/>
-      <path d="M68 26c0-6 4-8 4-12"/>
+      <path d="M40 26c0-6 4-8 4-12"/><path d="M54 26c0-6 4-8 4-12"/><path d="M68 26c0-6 4-8 4-12"/>
     </symbol>
     <symbol id="d-stack" viewBox="0 0 120 120">
-      <path d="M24 36h72"/>
-      <path d="M20 50h72"/>
-      <path d="M26 64h68"/>
-      <path d="M22 78h70"/>
-      <path d="M28 92h64"/>
-    </symbol>
-    <symbol id="d-circle" viewBox="0 0 200 80">
-      <path d="M18 42c14-26 62-36 100-30 34 5 62 20 62 34 0 16-40 28-84 26C52 70 12 60 18 42Z"/>
+      <path d="M24 36h72"/><path d="M20 50h72"/><path d="M26 64h68"/><path d="M22 78h70"/><path d="M28 92h64"/>
     </symbol>
     <symbol id="d-underline" viewBox="0 0 300 24">
       <path d="M6 16c48-9 118-12 180-9 34 2 74 6 108 11"/>
@@ -68,7 +54,6 @@
 </svg>
 
 <div id="grain" aria-hidden="true"></div>
-
 <div id="folio" aria-hidden="true"><span id="folioNum">01</span></div>
 
 <nav id="rail" aria-label="Slide navigation">
@@ -83,12 +68,11 @@
   <div class="dots" id="dots" role="tablist" aria-label="Slides"></div>
   <button id="present" class="present" title="Present mode (P)" aria-label="Toggle present mode">P</button>
 </nav>
-
 <div id="presentBar" aria-hidden="true"><i></i></div>
 
 <main id="deck">
 
-  <!-- 01 -->
+  <!-- 01 COVER -->
   <section class="slide cover" id="s1" data-title="Cover">
     <div class="wrap">
       <div class="cover-grid">
@@ -100,7 +84,9 @@
           <p class="cover-lede">A data story about the people who hold it up, and what happens when they are running on four hours of sleep.</p>
         </div>
         <div class="cover-art">
-          <svg class="apple-big" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" filter="url(#rough)"><use href="#d-apple"/></svg>
+          <div class="art-block peach">
+            <svg class="apple-big" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" filter="url(#rough)"><use href="#d-apple"/></svg>
+          </div>
           <p class="margin-note">every number<br>below is a person</p>
         </div>
       </div>
@@ -112,51 +98,45 @@
     </div>
   </section>
 
-  <!-- 02 -->
-  <section class="slide" id="s2" data-title="The week that does not end">
+  <!-- 02 WHO GETS TO GRADUATE -->
+  <section class="slide" id="s2" data-title="Who gets to graduate">
     <div class="wrap">
       <header class="sec">
         <span class="sec-num">01</span>
-        <h2>The week that does not end</h2>
+        <h2>Quality education starts before the classroom does</h2>
       </header>
-      <p class="deck-lede">Teachers work 46 hours a week. 5.7 of them go to marking.</p>
       <div class="split wide-left">
         <div>
+          <div class="quote-card">
+            <p class="quote-body">"True education does not cloy the mind with facts; it empowers the individual to reduce inequalities, drive gender equality, and foster tolerant societies."</p>
+            <p class="quote-by">Albert Einstein, attributed. Adopted by the United Nations on education.</p>
+          </div>
           <div class="tabs" role="tablist" aria-label="View">
             <button class="tab" role="tab" data-view="past" aria-selected="false">Past · 2021</button>
             <button class="tab" role="tab" data-view="present" aria-selected="true">Present · 2026</button>
             <button class="tab" role="tab" data-view="improve" aria-selected="false">Improve</button>
           </div>
-          <div class="chart tall" id="chartWorkload" role="img" aria-label="Interactive chart of teacher workload and stress"></div>
+          <div class="chart tall" id="chartWorkload" role="img" aria-label="Interactive chart: attrition, workload and marking hours"></div>
           <p class="caption" id="viewNote">Switch views to move through time.</p>
         </div>
-        <aside class="ledger">
-          <div class="ledger-hero">
-            <span class="big-num">46<span class="unit">h</span></span>
-            <p class="caption">Average working week. Of those, 5.7 hours go to marking.</p>
+        <aside>
+          <div class="stat-block peach">
+            <span class="big-num">42<span class="unit">%</span></span>
+            <p class="caption">less likely to graduate if the student is food insecure.</p>
           </div>
-          <ul class="ledger-list">
-            <li><span>Administrative work</span><b>69%</b></li>
-            <li><span>Marking</span><b>50%</b></li>
-            <li><span>Curriculum changes</span><b>46%</b></li>
-          </ul>
-          <p class="caption">Share naming each as a source of stress.</p>
-          <button class="doodle-btn" data-goto="5" data-collect="pen">
-            <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-pen"/></svg>
-            <span>Follow the pen</span>
-          </button>
+          <p class="body-note">Hunger and learning are the same problem: a student who is not fed cannot stay in the room long enough to finish.</p>
+          <p class="src"><b>Source</b> Public Health Nutrition, 2022 cohort study on food insecurity and degree completion.</p>
         </aside>
       </div>
-      <p class="src"><b>Source</b> TALIS 2024, Australia country note, compiled in the team research document.</p>
     </div>
   </section>
 
-  <!-- 03 -->
+  <!-- 03 JUST ONE MORE REPORT -->
   <section class="slide" id="s3" data-title="Just one more report">
     <div class="wrap">
       <header class="sec">
         <span class="sec-num">02</span>
-        <h2>The person behind the number</h2>
+        <h2>Just one more report</h2>
       </header>
       <div class="split wide-left">
         <div>
@@ -164,163 +144,155 @@
           <p class="attrib">NSW secondary school Enterprise Computing teacher, interviewed for this project.</p>
           <p class="margin-note inline">this line is why the project exists</p>
         </div>
-        <aside class="ledger">
-          <div class="ledger-hero">
-            <span class="big-num acc">70<span class="unit">%</span></span>
-            <p class="caption">of teachers say their workload is unmanageable.</p>
-          </div>
-          <div class="ledger-hero">
-            <span class="big-num">46.8<span class="unit">%</span></span>
-            <p class="caption">considered leaving in the past 12 months, up from 14% in 2021.</p>
-          </div>
-          <button class="doodle-btn" data-goto="4" data-collect="apple">
-            <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-apple"/></svg>
-            <span>Follow the apple</span>
-          </button>
+        <aside class="voices">
+          <p class="voices-label">What students said</p>
+          <ul>
+            <li><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-book"/></svg><span>Learning computers from a dusty chalkboard.</span></li>
+            <li><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-stack"/></svg><span>Can't afford the bus to class.</span></li>
+            <li><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-cup"/></svg><span>Fees paid with my mum's starvation.</span></li>
+          </ul>
+          <p class="src"><b>Source</b> Student and teacher interviews collected by the team.</p>
         </aside>
       </div>
-      <p class="src"><b>Source</b> Black Dog Institute teacher mental health data, cited in the team research document; teacher interview by the team.</p>
     </div>
   </section>
 
-  <!-- 04 -->
-  <section class="slide" id="s4" data-title="The cost lands on the classroom">
+  <!-- 04 BURNOUT DASHBOARD -->
+  <section class="slide" id="s4" data-title="Teacher burnout is breaking the system">
     <div class="wrap">
       <header class="sec">
         <span class="sec-num">03</span>
-        <h2>The cost lands on the classroom</h2>
+        <h2>Teacher burnout is breaking our education system</h2>
       </header>
-      <div class="split wide-right">
-        <aside class="ledger">
-          <div class="ledger-hero">
-            <span class="big-num acc">52<span class="unit">%</span></span>
-            <p class="caption">of teachers report moderate to severe symptoms of depression. General population baseline is 12%.</p>
-          </div>
-          <div class="ledger-hero">
-            <span class="big-num">76.9<span class="unit">%</span></span>
-            <p class="caption">of surveyed schools report teacher shortages. 25% of classes are taught outside the teacher's field.</p>
-          </div>
-        </aside>
-        <div>
-          <div class="chart" id="chartCost" role="img" aria-label="Comparison chart of depression symptoms between teachers and the general population"></div>
-          <p class="caption">Two populations, one profession.</p>
+      <div class="stat-grid">
+        <div class="stat-block">
+          <span class="big-num acc">46.8<span class="unit">%</span></span>
+          <p class="caption">of teachers are considering leaving in the next 12 months, up from 14% in 2021.</p>
+        </div>
+        <div class="stat-block">
+          <span class="big-num">52<span class="unit">%</span></span>
+          <p class="caption">report moderate to severe symptoms of depression. General population baseline is 12%.</p>
+        </div>
+        <div class="stat-block">
+          <span class="big-num">70<span class="unit">%</span></span>
+          <p class="caption">say their workload is unmanageable.</p>
+        </div>
+        <div class="stat-block blue">
+          <span class="big-num">46.5<span class="unit">h</span></span>
+          <p class="caption">worked per week by a full-time Australian teacher, against an OECD average of 41 hours.</p>
         </div>
       </div>
-      <p class="src"><b>Source</b> Black Dog Institute teacher mental health data, cited in the team research document.</p>
+      <div class="chart wide" id="chartHours" role="img" aria-label="Weekly working hours: Australian teachers against the OECD average"></div>
+      <p class="src"><b>Source</b> TALIS 2024, OECD country note for Australia, and Black Dog Institute teacher mental health data.</p>
     </div>
   </section>
 
-  <!-- 05 apple -->
-  <section class="slide" id="s5" data-title="What a rested teacher passes on">
+  <!-- 05 APPLE -->
+  <section class="slide" id="s5" data-title="Appearances can be deceiving">
     <div class="wrap">
       <header class="sec">
         <span class="sec-num">04</span>
-        <h2>What a rested teacher passes on</h2>
+        <h2>Appearances can be deceiving</h2>
       </header>
       <div class="split">
         <div>
-          <p class="deck-lede">Marking is not the point of teaching. It is the thing that eats the time teaching needs.</p>
-          <p>5.7 hours a week comes to roughly 228 hours a year across a 40 week school year. That is five and a half full working weeks spent away from lesson design, from feedback conversations, and from the students in front of the class.</p>
-          <p class="margin-note inline">give those hours back and the room changes</p>
+          <p class="deck-lede">When teachers burn out, students notice. When teachers thrive, students notice that too.</p>
+          <p>Feedback gets thinner. Lessons get reused. The room still runs, so the system reads it as fine. The children in it read it differently.</p>
+          <button class="doodle-btn" data-goto="5" data-collect="pen">
+            <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-pen"/></svg>
+            <span>Follow the pen</span>
+          </button>
         </div>
-        <div>
-          <div class="chart small" id="chartHours" role="img" aria-label="Hours per year spent marking"></div>
-          <p class="caption">Computed from 5.7 hours a week over a 40 week year. Arithmetic, not a prediction.</p>
+        <div class="art-block peach tall-block">
+          <svg class="art-mid" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" filter="url(#rough)"><use href="#d-apple"/></svg>
+          <p class="margin-note">what a teacher carries<br>walks into the room</p>
         </div>
       </div>
-      <p class="src"><b>Source</b> TALIS 2024 weekly marking hours. The annual figure is our own arithmetic on a stated 40 week assumption.</p>
+      <p class="src"><b>Source</b> Team interviews with NSW teachers and students, 2026.</p>
     </div>
   </section>
 
-  <!-- 06 pen -->
-  <section class="slide" id="s6" data-title="What the pen costs">
+  <!-- 06 PEN -->
+  <section class="slide" id="s6" data-title="One pen">
     <div class="wrap">
       <header class="sec">
         <span class="sec-num">05</span>
-        <h2>For five minutes of writing, twenty minutes of marking</h2>
+        <h2>The pen is the whole job in miniature</h2>
       </header>
       <div class="split wide-left">
         <div>
-          <p class="deck-lede">One teacher described the arithmetic of a single question: five minutes for a student to answer, ten to read it properly, ten more to write feedback that means anything.</p>
-          <div class="chart small" id="chartPen" role="img" aria-label="Minutes spent per question"></div>
-        </div>
-        <aside class="ledger">
-          <ul class="ledger-list big">
-            <li><span>Student answering</span><b>5 min</b></li>
-            <li><span>Teacher reading</span><b>10 min</b></li>
-            <li><span>Teacher writing feedback</span><b>10 min</b></li>
-          </ul>
-          <p class="caption">Per question, per class. Multiply by every class, every term.</p>
+          <blockquote class="pullquote">One child, one teacher, one book, one pen can change the world.</blockquote>
+          <p class="attrib">Malala Yousafzai</p>
+          <p class="body-note">A pen is also where a teacher's week disappears: five minutes for a student to answer, ten to read it properly, ten more to write feedback that means anything.</p>
           <button class="doodle-btn" data-goto="1">
             <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" filter="url(#rough)"><use href="#d-stack"/></svg>
             <span>Back to the numbers</span>
           </button>
-        </aside>
+        </div>
+        <div class="art-block blue tall-block">
+          <svg class="art-mid" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" filter="url(#rough)"><use href="#d-pen"/></svg>
+          <p class="ledger-list mini">
+            <span>Student answers</span><b>5 min</b>
+          </p>
+          <p class="ledger-list mini">
+            <span>Teacher reads</span><b>10 min</b>
+          </p>
+          <p class="ledger-list mini">
+            <span>Teacher writes feedback</span><b>10 min</b>
+          </p>
+        </div>
       </div>
       <p class="src"><b>Source</b> Team interview, NSW secondary school Enterprise Computing teacher.</p>
     </div>
   </section>
 
-  <!-- 07 -->
-  <section class="slide" id="s7" data-title="Amateur">
+  <!-- 07 NEW CHAPTERS -->
+  <section class="slide" id="s7" data-title="New chapters">
     <div class="wrap">
       <header class="sec">
         <span class="sec-num">06</span>
-        <h2>Amateur. From <em>amare</em>. To love.</h2>
+        <h2>A rested teacher's shelter and passion radiates to all</h2>
       </header>
       <div class="split wide-right">
         <div>
-          <p class="deck-lede">Nobody enters teaching for the marking. They enter because they love the subject and want to hand it on.</p>
-          <p>Sixty per cent name marking as the single most stressful part of the job. Not the students, not the content: the paperwork that surrounds it.</p>
-          <p class="margin-note inline">the word itself is the argument</p>
+          <p class="deck-lede">The lever is not more hours. It is fewer hours on work that does not need a human, so the hours that do need a human become possible again.</p>
+          <p>Marking runs at 5.7 hours a week, roughly 228 hours a year. Halve it and 114 hours come back to lesson design, to feedback conversations, or simply to leaving work at work.</p>
+          <p class="margin-note inline">the resource already exists, inside the marking load</p>
         </div>
         <div>
-          <div class="chart" id="chartAmateur" role="img" aria-label="Share of teachers naming marking as the most stressful part"></div>
-          <p class="caption">Hover for the value.</p>
+          <div class="chart small" id="chartMarking" role="img" aria-label="Marking hours per year, current and halved"></div>
+          <p class="caption">Arithmetic on the TALIS 2024 weekly figure across a 40 week year. A scenario, not a forecast.</p>
         </div>
       </div>
-      <p class="src"><b>Source</b> YouGov survey on teacher workload, cited in the team research document. Etymology: Latin <em>amator</em>, one who loves.</p>
+      <p class="src"><b>Source</b> TALIS 2024 weekly marking hours. Annual figure and the halving scenario are our own arithmetic on a stated 40 week assumption.</p>
     </div>
   </section>
 
-  <!-- 08 -->
-  <section class="slide" id="s8" data-title="New chapter">
+  <!-- 08 MALCOLM X -->
+  <section class="slide" id="s8" data-title="Close">
     <div class="wrap">
       <header class="sec">
         <span class="sec-num">07</span>
-        <h2>A rested teacher's shelter and passion radiates to all</h2>
-      </header>
-      <div class="split">
-        <div>
-          <p class="deck-lede">The lever is not more hours. It is fewer hours on work that does not need a human, so the hours that do need a human become possible again.</p>
-          <p>Every hour returned to lesson design is an hour spent on the part of teaching that made the profession worth entering. The resource already exists. It is inside the marking load.</p>
-        </div>
-        <aside class="ledger">
-          <div class="ledger-hero">
-            <span class="big-num">114<span class="unit">h</span></span>
-            <p class="caption">returned per teacher per year if marking time halved. Scenario arithmetic on the 228 hour baseline, not a forecast.</p>
-          </div>
-          <svg class="cup" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" filter="url(#rough)"><use href="#d-cup"/></svg>
-        </aside>
-      </div>
-      <p class="src"><b>Source</b> Arithmetic on TALIS 2024 marking hours. Scenario, labelled as such.</p>
-    </div>
-  </section>
-
-  <!-- 09 -->
-  <section class="slide" id="s9" data-title="Close">
-    <div class="wrap">
-      <header class="sec">
-        <span class="sec-num">08</span>
         <h2>Close</h2>
       </header>
       <blockquote class="pullquote">Education is the passport to the future, for tomorrow belongs to those who prepare for it today.</blockquote>
       <p class="attrib">Malcolm X</p>
+      <p class="body-note wide-note">Preparing for tomorrow means keeping the people who teach it upright. That is the metric we are asking you to look at.</p>
+      <p class="src"><b>SDG</b> Goal 4, Quality Education. Targets 4.1, 4.5 and 4.c on teachers and learning outcomes.</p>
+    </div>
+  </section>
 
+  <!-- 09 CREDITS -->
+  <section class="slide" id="s9" data-title="Credits">
+    <div class="wrap">
+      <header class="sec">
+        <span class="sec-num">08</span>
+        <h2>Built for DataViz at MQ, 2026</h2>
+      </header>
       <div class="credit-grid">
         <div>
           <h3>Dataset and method</h3>
-          <p>Public statistics on teacher workload and wellbeing, compiled from TALIS 2024, Black Dog Institute, YouGov and NSW school reporting.</p>
+          <p>Public statistics on teacher workload and wellbeing: TALIS 2024 (OECD), Black Dog Institute, YouGov, and a 2022 Public Health Nutrition cohort study on food insecurity.</p>
           <p>All figures hard coded. No live data connection.</p>
         </div>
         <div>
@@ -331,9 +303,10 @@
           <p>Xing Gao</p>
         </div>
         <div>
-          <h3>Built for</h3>
-          <p>DataViz @ MQ 2026</p>
-          <p>School of Mathematical and Physical Sciences</p>
+          <h3>Built with</h3>
+          <p>Static HTML, CSS and JavaScript</p>
+          <p>Apache ECharts for the charts</p>
+          <p>Interface components adapted from Uiverse</p>
           <p>Goal 4, Quality Education</p>
         </div>
       </div>
