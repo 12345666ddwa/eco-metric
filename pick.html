@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coordinate picker · Eco-Metric</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  #book { cursor: crosshair; }
+  .pin {
+    position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+    border: 2px solid #b5543a; border-radius: 50%; pointer-events: none; z-index: 9;
+  }
+  #hud {
+    position: fixed; left: 14px; top: 14px; z-index: 50;
+    background: rgba(254, 238, 225, .96); border: 1px solid rgba(43,27,18,.3);
+    padding: 12px 14px; font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 12px; color: #2b1b12; max-width: 320px;
+  }
+  #hud h1 { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; margin: 0 0 8px; color: #b5543a; }
+  #out { font-variant-numeric: tabular-nums; font-weight: 700; margin: 6px 0; }
+  #list { margin: 6px 0 0; padding-left: 16px; font-variant-numeric: tabular-nums; }
+  #list li { margin: 2px 0; }
+  .pg { position: fixed; bottom: 14px; z-index: 50; border: 1px solid rgba(43,27,18,.3);
+        background: rgba(254,238,225,.9); color: #2b1b12; padding: 6px 12px; cursor: pointer;
+        font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+  #prev { left: 14px; } #next { left: 96px; }
+  #counter { left: auto; right: 14px; bottom: 16px; font-size: 12px; letter-spacing: .1em; }
+</style>
+</head>
+<body>
+
+<div id="book">
+  <section class="page active"><img src="slides/p1.jpg" alt="" draggable="false"></section>
+  <section class="page"><img src="slides/p2.jpg" alt="" draggable="false"></section>
+  <section class="page"><img src="slides/p3.jpg" alt="" draggable="false"></section>
+  <section class="page"><img src="slides/p4.jpg" alt="" draggable="false"></section>
+  <section class="page"><img src="slides/p5.jpg" alt="" draggable="false"></section>
+  <section class="page"><img src="slides/p6.jpg" alt="" draggable="false"></section>
+  <section class="page"><img src="slides/p7.jpg" alt="" draggable="false"></section>
+</div>
+
+<div id="hud">
+  <h1>Click the icon</h1>
+  <div>Click the apple, then the pen. Coordinates appear below.</div>
+  <div id="out">waiting</div>
+  <ol id="list"></ol>
+</div>
+
+<button class="pg" id="prev">Prev</button>
+<button class="pg" id="next">Next</button>
+<div id="counter"><span id="cur">1 / 7</span></div>
+
+<script src="pick.js"></script>
+</body>
+</html>
