@@ -59,6 +59,22 @@
 <div id="counter"><b id="cur">01</b><span>/</span><span id="total">07</span></div>
 <div id="bar" aria-hidden="true"><i></i></div>
 
+<button id="dpOpen" aria-label="Open the data panel" title="Data (D)">Data</button>
+
+<aside id="dataPanel" aria-hidden="true" aria-label="Data panel">
+  <div class="dp-head">
+    <div>
+      <p class="dp-kicker" id="dpKicker">Live data</p>
+      <h2 id="dpTitle">Data</h2>
+    </div>
+    <button id="dpClose" aria-label="Close the data panel">Close</button>
+  </div>
+  <div id="dpChart" class="dp-chart" role="img" aria-label="Interactive chart"></div>
+  <div class="dp-tabs" id="dpTabs" role="tablist" aria-label="View"></div>
+  <p class="dp-note" id="dpNote"></p>
+</aside>
+
+<script src="vendor/echarts.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
