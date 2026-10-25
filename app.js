@@ -19,6 +19,51 @@
   };
 
   /* ---------------------------------------------------------------
+     Transition audio. Keys are 1-based slide numbers because they describe
+     the slide being entered, not the zero-based `pages` array position.
+     --------------------------------------------------------------- */
+  var TRANSITION_AUDIO = {
+    1: "flip-ambient.m4a",
+    2: "flip-bright.m4a",
+    3: "flip-rough.m4a",
+    4: "flip-rough.m4a",
+    5: "flip-ambient.m4a",
+    6: "flip-ambient.m4a",
+    7: "flip-uplifting.m4a",
+    8: "flip-bright.m4a",
+    9: ""
+  };
+
+  /* ---------------------------------------------------------------
+     Source references. Each pair of normalized points marks the artwork
+     region supported by the citation, independent of screen dimensions.
+     --------------------------------------------------------------- */
+  var SLIDE_REFERENCES = {
+    2: [
+      { start: { x: 0.164, y: 0.448 }, end: { x: 0.467, y: 0.291 }, label: "2 billion education market reach", source: "HolonIQ", url: "https://www.holoniq.com/notes/10-charts-for-a-changing-education-market" },
+      { start: { x: 0.164, y: 0.621 }, end: { x: 0.469, y: 0.460 }, label: "Food insecurity linked to lower graduation rates", source: "Johns Hopkins University", url: "https://publichealth.jhu.edu/2021/food-insecurity-during-college-years-linked-to-lower-graduation-rate" },
+      { start: { x: 0.151, y: 0.990 }, end: { x: 0.494, y: 0.781 }, label: "OECD survey on heavy Australian teacher workloads", source: "Save Our Schools", url: "https://saveourschools.com.au/teachers/oecd-survey-shows-australian-teachers-have-a-very-heavy-workload/" },
+      { start: { x: 0.501, y: 0.569 }, end: { x: 0.816, y: 0.335 }, label: "Teacher shortages and workforce impact", source: "Black Dog Institute", url: "https://www.blackdoginstitute.org.au/media-releases/teacher-mental-health-and-burnout-could-halve-workforce-new-data-by-black-dog-institute/" },
+      { start: { x: 0.588, y: 0.739 }, end: { x: 0.770, y: 0.640 }, label: "Elevated teacher workloads and burnout", source: "Black Dog Institute", url: "https://www.blackdoginstitute.org.au/media-releases/teacher-mental-health-and-burnout-could-halve-workforce-new-data-by-black-dog-institute/" },
+      { start: { x: 0.544, y: 0.837 }, end: { x: 0.725, y: 0.743 }, label: "Teacher depression metrics", source: "Black Dog Institute", url: "https://www.blackdoginstitute.org.au/media-releases/teacher-mental-health-and-burnout-could-halve-workforce-new-data-by-black-dog-institute/" },
+      { start: { x: 0.587, y: 0.937 }, end: { x: 0.770, y: 0.841 }, label: "Teaching outside field of training", source: "Black Dog Institute", url: "https://www.blackdoginstitute.org.au/media-releases/teacher-mental-health-and-burnout-could-halve-workforce-new-data-by-black-dog-institute/" }
+    ],
+    4: [
+      { start: { x: 0.178, y: 0.482 }, end: { x: 0.459, y: 0.360 }, label: "Global out-of-school children statistics", source: "UNESCO", url: "https://www.unesco.org/en/articles/countries-commit-reducing-number-out-school-children-165-million" },
+      { start: { x: 0.171, y: 0.713 }, end: { x: 0.318, y: 0.495 }, label: "GEM report on educational entry rates", source: "UNESCO", url: "https://www.unesco.org/reports/gem-report/en/2024-monitoringsdg4" },
+      { start: { x: 0.329, y: 0.701 }, end: { x: 0.476, y: 0.493 }, label: "Global education completion metrics", source: "UNESCO", url: "https://www.unesco.org/reports/gem-report/en/2024-monitoringsdg4" },
+      { start: { x: 0.169, y: 0.946 }, end: { x: 0.476, y: 0.733 }, label: "Country-level out-of-school youth data", source: "UNESCO", url: "https://www.unesco.org/en/articles/251m-children-and-youth-still-out-school-despite-decades-progress-unesco-report" },
+      { start: { x: 0.532, y: 0.724 }, end: { x: 0.785, y: 0.294 }, label: "Teacher retention and resignation trends", source: "Black Dog Institute", url: "https://www.blackdoginstitute.org.au/media-releases/teacher-mental-health-and-burnout-could-halve-workforce-new-data-by-black-dog-institute/" },
+      { start: { x: 0.529, y: 0.909 }, end: { x: 0.822, y: 0.722 }, label: "Australian population depression symptom prevalence", source: "The Conversation", url: "https://theconversation.com/explainer-what-is-depression-11447" }
+    ],
+    7: [
+      { start: { x: 0.212, y: 0.505 }, end: { x: 0.479, y: 0.292 }, label: "Australian student retention to Year 12", source: "Australian Bureau of Statistics", url: "https://www.abs.gov.au/statistics/people/education/schools/latest-release" },
+      { start: { x: 0.173, y: 0.735 }, end: { x: 0.451, y: 0.530 }, label: "Initial teacher education course completion rates", source: "ACARA", url: "https://www.acara.edu.au/reporting/national-report-on-schooling-in-australia/teacher-education" },
+      { start: { x: 0.173, y: 0.991 }, end: { x: 0.472, y: 0.772 }, label: "Analysis of education costs across Australia", source: "SBS News", url: "https://www.sbs.com.au/news/article/the-cost-of-educating-children-in-australia-revealed/6vxrnq7re" }
+    ]
+  };
+
+  /* ---------------------------------------------------------------
      Data panels. Slides 2, 4 and 7 carry a live chart.
      Every figure is cited in the note line.
      --------------------------------------------------------------- */
@@ -124,6 +169,11 @@
 
   var pages = Array.prototype.slice.call(document.querySelectorAll(".page"));
   var spots = document.getElementById("hotspots");
+  var references = document.getElementById("references");
+  var referenceCard = document.getElementById("referenceCard");
+  var referenceLabel = document.getElementById("referenceLabel");
+  var referenceSource = document.getElementById("referenceSource");
+  var referenceLink = document.getElementById("referenceLink");
   var dotsBox = document.getElementById("dots");
   var cur = document.getElementById("cur");
   var totalEl = document.getElementById("total");
@@ -131,7 +181,6 @@
   var bar = document.getElementById("bar");
   var book = document.getElementById("book");
   var panel = document.getElementById("dataPanel");
-  var dpOpenBtn = document.getElementById("dpOpen");
   var dpTitle = document.getElementById("dpTitle");
   var dpKicker = document.getElementById("dpKicker");
   var dpNote = document.getElementById("dpNote");
@@ -144,6 +193,9 @@
   var FLIP = 820;
   var chart = null;
   var panelSlide = 0;
+  var transitionPlayers = {};
+  var referenceHideTimer = null;
+  var activeReference = null;
 
   totalEl.textContent = String(total).padStart(2, "0");
 
@@ -162,7 +214,33 @@
     dots.forEach(function (d, k) { d.setAttribute("aria-current", k === i ? "true" : "false"); });
     cur.textContent = String(i + 1).padStart(2, "0");
     renderHotspots(i);
-    document.body.classList.toggle("has-data", !!DP[i + 1]);
+    renderReferences(i);
+  }
+
+  function playTransitionSound(targetSlide) {
+    var file = TRANSITION_AUDIO[targetSlide];
+    if (!file) return;
+
+    // Keep one decoded player for each profile. Restarting its timeline makes
+    // rapid successive turns responsive instead of waiting for a clip to end.
+    var player = transitionPlayers[file];
+    if (!player) {
+      player = new Audio("assets/audio/" + file);
+      player.preload = "auto";
+      transitionPlayers[file] = player;
+    }
+
+    // A new turn replaces, rather than layers over, the previous flip sound.
+    Object.keys(transitionPlayers).forEach(function (name) {
+      if (name !== file) transitionPlayers[name].pause();
+    });
+    player.pause();
+    try { player.currentTime = 0; } catch (err) { /* media is not seekable yet */ }
+
+    // Browsers can reject sound until a user gesture. Swallow that expected
+    // promise rejection so navigation remains functional in either state.
+    var played = player.play();
+    if (played && typeof played.catch === "function") played.catch(function () {});
   }
 
   /* ---------------- hotspots ---------------- */
@@ -233,17 +311,114 @@
     });
   }
 
+  function referenceBox(ref, r) {
+    // The dataset's endpoints may be supplied in either visual direction.
+    // Normalising them first produces a valid responsive rectangle in all cases.
+    var left = Math.min(ref.start.x, ref.end.x);
+    var top = Math.min(ref.start.y, ref.end.y);
+    var right = Math.max(ref.start.x, ref.end.x);
+    var bottom = Math.max(ref.start.y, ref.end.y);
+    return {
+      left: r.left + left * r.w,
+      top: r.top + top * r.h,
+      w: (right - left) * r.w,
+      h: (bottom - top) * r.h
+    };
+  }
+
+  function hideReference() {
+    if (referenceHideTimer) { clearTimeout(referenceHideTimer); referenceHideTimer = null; }
+    activeReference = null;
+    referenceCard.classList.remove("open");
+    referenceCard.setAttribute("aria-hidden", "true");
+  }
+
+  function scheduleReferenceHide() {
+    if (referenceHideTimer) clearTimeout(referenceHideTimer);
+    referenceHideTimer = setTimeout(hideReference, 180);
+  }
+
+  function showReference(ref, box) {
+    if (referenceHideTimer) { clearTimeout(referenceHideTimer); referenceHideTimer = null; }
+    activeReference = ref;
+    referenceLabel.textContent = ref.label;
+    referenceSource.textContent = ref.source;
+    referenceLink.href = ref.url;
+    referenceCard.classList.add("open");
+    referenceCard.setAttribute("aria-hidden", "false");
+
+    // Position the card in overlay coordinates and keep it inside the viewport.
+    var margin = 12;
+    var cardW = referenceCard.offsetWidth;
+    var cardH = referenceCard.offsetHeight;
+    var layerW = references.clientWidth;
+    var layerH = references.clientHeight;
+    var left = Math.max(margin, Math.min(box.left + box.w / 2 - cardW / 2, layerW - cardW - margin));
+    var top = box.top - cardH - margin;
+    if (top < margin) top = Math.min(layerH - cardH - margin, box.top + box.h + margin);
+
+    referenceCard.style.left = left + "px";
+    referenceCard.style.top = Math.max(margin, top) + "px";
+  }
+
+  function renderReferences(i) {
+    references.innerHTML = "";
+    hideReference();
+    var list = SLIDE_REFERENCES[i + 1];
+    var r = imageRect(i);
+    if (!list || !r) return;
+
+    list.forEach(function (ref) {
+      var values = [ref.start.x, ref.start.y, ref.end.x, ref.end.y];
+      if (values.some(function (value) { return value < 0 || value > 1 || !isFinite(value); })) return;
+
+      var box = referenceBox(ref, r);
+      if (!box.w || !box.h) return;
+      var marker = document.createElement("button");
+      marker.className = "reference-hotspot";
+      marker.type = "button";
+      marker.style.left = box.left + "px";
+      marker.style.top = box.top + "px";
+      marker.style.width = box.w + "px";
+      marker.style.height = box.h + "px";
+      marker.setAttribute("aria-label", "Show source: " + ref.label);
+      marker.setAttribute("aria-controls", "referenceCard");
+      marker.addEventListener("mouseenter", function () { showReference(ref, box); });
+      marker.addEventListener("mouseleave", scheduleReferenceHide);
+      marker.addEventListener("focus", function () { showReference(ref, box); });
+      marker.addEventListener("blur", scheduleReferenceHide);
+      marker.addEventListener("click", function (e) {
+        e.stopPropagation();
+        showReference(ref, box); // Touch users reveal the card with one tap.
+      });
+      references.appendChild(marker);
+    });
+  }
+
   window.addEventListener("resize", function () {
     renderHotspots(index);
+    renderReferences(index);
     if (chart) chart.resize();
   });
 
   pages.forEach(function (page, i) {
     var img = page.querySelector("img");
     img.addEventListener("load", function () {
-      if (i === index) renderHotspots(index);
+      if (i === index) {
+        renderHotspots(index);
+        renderReferences(index);
+      }
     });
   });
+
+  referenceCard.addEventListener("mouseenter", function () {
+    if (referenceHideTimer) { clearTimeout(referenceHideTimer); referenceHideTimer = null; }
+  });
+  referenceCard.addEventListener("mouseleave", scheduleReferenceHide);
+  referenceCard.addEventListener("focusin", function () {
+    if (referenceHideTimer) { clearTimeout(referenceHideTimer); referenceHideTimer = null; }
+  });
+  referenceCard.addEventListener("focusout", scheduleReferenceHide);
 
   /* ---------------- page turning ---------------- */
   // `fromAutoplay` is only true for the timer's own page turn. Every other
@@ -252,8 +427,10 @@
     if (!fromAutoplay) restartPresentCountdown();
     target = Math.max(0, Math.min(total - 1, target));
     if (busy || target === index) return;
+    hideReference();
     if (panel.classList.contains("open")) closePanel();
     busy = true;
+    playTransitionSound(target + 1);
 
     var forward = target > index;
     var out = pages[index];
@@ -303,7 +480,7 @@
   });
 
   book.addEventListener("click", function (e) {
-    if (e.target.closest(".hotspot")) return;
+    if (e.target.closest(".hotspot, .reference-hotspot, #referenceCard")) return;
     if (panel.classList.contains("open")) return;
     var r = imageRect(index);
     // Ignore clicks in letterboxing or outside the active artwork entirely.
@@ -359,7 +536,6 @@
     panel.setAttribute("aria-hidden", "true");
   }
 
-  dpOpenBtn.addEventListener("click", function (e) { e.stopPropagation(); openPanel(); });
   document.getElementById("dpClose").addEventListener("click", function (e) { e.stopPropagation(); closePanel(); });
 
   /* ---------------- keys ---------------- */

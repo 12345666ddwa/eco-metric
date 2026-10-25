@@ -48,6 +48,13 @@
   </section>
 
   <div id="hotspots" aria-hidden="false"></div>
+  <div id="references" aria-label="Slide references"></div>
+  <aside id="referenceCard" aria-hidden="true" role="tooltip">
+    <p class="reference-kicker">Source reference</p>
+    <p id="referenceLabel" class="reference-label"></p>
+    <p id="referenceSource" class="reference-source"></p>
+    <a id="referenceLink" target="_blank" rel="noopener noreferrer">Open original citation <span aria-hidden="true">↗</span></a>
+  </aside>
 </div>
 
 <button class="nav-arrow prev" aria-label="Previous slide">&#8249;</button>
@@ -66,8 +73,6 @@
 
 <div id="counter"><b id="cur">01</b><span>/</span><span id="total">07</span></div>
 <div id="bar" aria-hidden="true"><i></i></div>
-
-<button id="dpOpen" aria-label="Open the data panel" title="Data (D)">Data</button>
 
 <aside id="dataPanel" aria-hidden="true" aria-label="Data panel">
   <div class="dp-head">
