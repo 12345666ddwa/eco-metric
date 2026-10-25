@@ -1,5 +1,5 @@
-/* Eco-Metric · presentation view
-   The slides are the team's own artwork. The page is a quiet frame around them. */
+/* Eco-Metric · page-flip presentation
+   Slides are the team's own artwork. Navigation turns them like pages. */
 
 :root {
   --frame: #ffdaae;
@@ -7,14 +7,14 @@
   --accent: #b5543a;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
     "Hiragino Sans GB", "Microsoft YaHei", Roboto, Arial, sans-serif;
+  --flip: 820ms;
+  --ease: cubic-bezier(.38, .02, .2, 1);
 }
 
 * { box-sizing: border-box; }
 
 html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+  margin: 0; padding: 0; height: 100%;
   background: var(--frame);
   color: var(--ink);
   font-family: var(--sans);
@@ -22,119 +22,186 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
-#deck {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
+#book {
+  position: fixed;
+  inset: 0;
+  perspective: 2600px;
+  perspective-origin: 50% 50%;
 }
-#deck::-webkit-scrollbar { display: none; }
 
-.slide {
-  height: 100vh;
-  width: 100vw;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
+.page {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
 }
 
-.slide img {
+.page img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   display: block;
   user-select: none;
   -webkit-user-drag: none;
+  background: var(--frame);
 }
+
+.page.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* shading sheet used while a page turns */
+.page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.22) 100%);
+  opacity: 0;
+  transition: opacity var(--flip) var(--ease);
+}
+.page.turning::after { opacity: 1; }
+
+/* turning forward: page lifts from the right and swings left on its spine */
+.page.turn-next {
+  transform-origin: left center;
+  animation: turnNext var(--flip) var(--ease) forwards;
+}
+.page.turn-prev {
+  transform-origin: right center;
+  animation: turnPrev var(--flip) var(--ease) forwards;
+}
+
+@keyframes turnNext {
+  0%   { transform: rotateY(0deg) translateZ(0); opacity: 1; }
+  55%  { opacity: 1; }
+  100% { transform: rotateY(-112deg) translateZ(20px); opacity: 0; }
+}
+@keyframes turnPrev {
+  0%   { transform: rotateY(0deg) translateZ(0); opacity: 1; }
+  55%  { opacity: 1; }
+  100% { transform: rotateY(112deg) translateZ(20px); opacity: 0; }
+}
+
+/* incoming page eases up from behind */
+.page.arrive-next { animation: arriveNext var(--flip) var(--ease) forwards; }
+.page.arrive-prev { animation: arrivePrev var(--flip) var(--ease) forwards; }
+
+@keyframes arriveNext {
+  0%   { transform: rotateY(6deg) scale(.985); opacity: .55; }
+  60%  { opacity: 1; }
+  100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+}
+@keyframes arrivePrev {
+  0%   { transform: rotateY(-6deg) scale(.985); opacity: .55; }
+  60%  { opacity: 1; }
+  100% { transform: rotateY(0deg) scale(1); opacity: 1; }
+}
+
+/* ---------- clickable hotspots ---------- */
+#hotspots { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.hotspot {
+  position: absolute;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  border-radius: 0;
+  transition: background-color 160ms linear;
+}
+.hotspot:hover { background: rgba(181, 84, 58, 0.12); }
+.hotspot:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.hotspot span {
+  position: absolute;
+  left: 50%;
+  bottom: -26px;
+  transform: translateX(-50%);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0;
+  transition: opacity 160ms linear;
+  white-space: nowrap;
+}
+.hotspot:hover span, .hotspot:focus-visible span { opacity: 1; }
 
 /* ---------- rail ---------- */
 #rail {
-  position: fixed;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  z-index: 30;
-  opacity: 0.35;
-  transition: opacity 220ms linear;
+  position: fixed; right: 16px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  z-index: 30; opacity: 0.32; transition: opacity 220ms linear;
 }
 #rail:hover { opacity: 1; }
-
 #rail .dots { display: flex; flex-direction: column; gap: 9px; }
 #rail .dot {
-  width: 22px;
-  height: 3px;
-  border: 0;
-  padding: 0;
-  background: rgba(43, 27, 18, 0.28);
-  cursor: pointer;
+  width: 22px; height: 3px; border: 0; padding: 0;
+  background: rgba(43, 27, 18, 0.28); cursor: pointer;
   transition: background-color 160ms linear, width 160ms linear;
 }
 #rail .dot:hover { background: rgba(43, 27, 18, 0.6); }
 #rail .dot[aria-current="true"] { background: var(--accent); width: 34px; }
-
 #rail .jump, #present {
-  width: 26px;
-  height: 26px;
-  padding: 3px;
+  width: 26px; height: 26px; padding: 3px;
   border: 1px solid rgba(43, 27, 18, 0.25);
-  background: transparent;
-  color: rgba(43, 27, 18, 0.65);
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  font-family: var(--sans);
-  font-size: 9px;
-  font-weight: 700;
+  background: transparent; color: rgba(43, 27, 18, 0.65);
+  cursor: pointer; display: grid; place-items: center;
+  font-family: var(--sans); font-size: 9px; font-weight: 700;
   transition: color 160ms linear, border-color 160ms linear, background-color 160ms linear;
 }
 #rail .jump svg { width: 100%; height: 100%; display: block; }
 #rail .jump:hover, #present:hover { color: var(--accent); border-color: var(--accent); }
 #present[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--frame); }
 
-/* ---------- counter ---------- */
+/* ---------- arrows + counter ---------- */
+.nav-arrow {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  width: 44px; height: 64px; border: 0; background: transparent;
+  color: rgba(43, 27, 18, 0.35); font-size: 30px; line-height: 1;
+  cursor: pointer; z-index: 25; transition: color 160ms linear, opacity 160ms linear;
+  opacity: 0;
+}
+.nav-arrow:hover { color: var(--accent); }
+#book:hover ~ .nav-arrow, .nav-arrow:hover { opacity: 1; }
+.nav-arrow.prev { left: 8px; }
+.nav-arrow.next { right: 8px; }
+
 #counter {
-  position: fixed;
-  left: 18px;
-  bottom: 14px;
-  z-index: 30;
-  font-size: 11px;
-  letter-spacing: 0.16em;
-  color: rgba(43, 27, 18, 0.6);
-  font-variant-numeric: tabular-nums;
-  opacity: 0.8;
+  position: fixed; left: 18px; bottom: 14px; z-index: 30;
+  font-size: 11px; letter-spacing: 0.16em;
+  color: rgba(43, 27, 18, 0.6); font-variant-numeric: tabular-nums;
 }
 #counter b { color: var(--accent); font-weight: 700; }
 #counter span { margin: 0 3px; }
 
-/* ---------- present progress ---------- */
 #bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  opacity: 0;
-  transition: opacity 220ms linear;
-  z-index: 30;
+  position: fixed; left: 0; right: 0; bottom: 0; height: 2px;
+  opacity: 0; transition: opacity 220ms linear; z-index: 30;
 }
 #bar.on { opacity: 1; }
 #bar i { display: block; height: 100%; width: 0; background: var(--accent); }
 
 @media (max-width: 780px) {
-  #rail { right: 6px; opacity: 0.5; }
+  #rail { right: 4px; opacity: 0.45; }
   #rail .dot { width: 16px; }
-  #counter { font-size: 10px; left: 12px; }
+  .nav-arrow { display: none; }
+  #counter { font-size: 10px; left: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #deck { scroll-behavior: auto; }
-  #rail, #rail .dot, #bar { transition: none; }
+  .page.turn-next, .page.turn-prev, .page.arrive-next, .page.arrive-prev {
+    animation-duration: 1ms !important;
+  }
 }
