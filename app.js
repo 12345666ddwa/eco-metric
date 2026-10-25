@@ -12,9 +12,9 @@
   var HOTSPOTS = {
     all: [
       // Upper-left third: opens the pen's destination.
-      { x: 0, y: 0, w: 0.33, h: 0.10, go: 2, label: "pen" },
+      { x: 0, y: 0, w: 0.33, h: 0.10, go: 6, label: "pen" },
       // Upper-right edge: opens the apple's secondary destination.
-      { x: 0.82, y: 0, w: 0.18, h: 0.25, go: 3, label: "apple" }
+      { x: 0.82, y: 0, w: 0.18, h: 0.25, go: 5, label: "apple" }
     ]
   };
 
@@ -105,6 +105,18 @@
         return {
           option: barChart(["Hours a year", "If halved"], [228, 114], " h", [accent, olive], 260),
           note: "5.7 hours of marking a week is roughly 228 hours a year. Halved, 114 hours return to lesson design or to leaving work at work."
+        };
+      }
+    },
+
+    9: {
+      kicker: "Slide 9 · at a glance",
+      title: "Workload and retention, side by side",
+      note: "Summary figures shown in the presentation's closing overview.",
+      build: function () {
+        return {
+          option: barChart(["Considering leaving", "Reporting shortages"], [46.8, 76.9], "%", [accent, olive], 100),
+          note: "46.8% of teachers were considering leaving within 12 months; 76.9% reported school-teacher shortages."
         };
       }
     }
@@ -204,7 +216,19 @@
       b.style.height = (hs.h * r.h) + "px";
       b.setAttribute("aria-label", "Open slide " + hs.go + (hs.label ? ", " + hs.label : ""));
       b.innerHTML = "<span>" + (hs.label ? "open " + hs.label : "open") + "</span>";
-      b.addEventListener("click", function (e) { e.stopPropagation(); closePanel(); goTo(hs.go - 1); });
+      b.addEventListener("click", function (e) {
+        // Re-read r at click time: a load or resize cannot turn a stale
+        // hotspot position into a click outside the active artwork.
+        // Keyboard-generated clicks have no pointer coordinates, so retain
+        // their normal button behaviour for accessibility.
+        if (e.detail !== 0) {
+          var currentRect = imageRect(i);
+          if (!currentRect || !pointIsInImage(e, currentRect)) return;
+        }
+        e.stopPropagation();
+        closePanel();
+        goTo(hs.go - 1); // HOTSPOTS uses human-facing, 1-based slide numbers.
+      });
       spots.appendChild(b);
     });
   }
@@ -222,7 +246,10 @@
   });
 
   /* ---------------- page turning ---------------- */
-  function goTo(target) {
+  // `fromAutoplay` is only true for the timer's own page turn. Every other
+  // caller is a user action and receives a fresh presentation countdown.
+  function goTo(target, fromAutoplay) {
+    if (!fromAutoplay) restartPresentCountdown();
     target = Math.max(0, Math.min(total - 1, target));
     if (busy || target === index) return;
     if (panel.classList.contains("open")) closePanel();
@@ -262,8 +289,8 @@
     setTimeout(finish, FLIP + 90);
   }
 
-  function next() { goTo(index + 1); }
-  function prev() { goTo(index - 1); }
+  function next(fromAutoplay) { goTo(index + 1, fromAutoplay); }
+  function prev(fromAutoplay) { goTo(index - 1, fromAutoplay); }
 
   document.querySelector(".nav-arrow.next").addEventListener("click", function (e) { e.stopPropagation(); next(); });
   document.querySelector(".nav-arrow.prev").addEventListener("click", function (e) { e.stopPropagation(); prev(); });
@@ -351,22 +378,39 @@
   });
 
   /* ---------------- present mode, on by default ---------------- */
-  var timer = null, tick = null, SLIDE_MS = 10000;
+  var timer = null, tick = null, SLIDE_MS = 10000, TICK_MS = 50;
 
-  function setPresent(on) {
+  function clearPresentTimers() {
     if (timer) { clearInterval(timer); timer = null; }
     if (tick) { clearInterval(tick); tick = null; }
+  }
+
+  function restartPresentCountdown() {
+    // Do not restart a presentation that the user explicitly paused.
+    if (presentBtn.getAttribute("aria-pressed") === "true") setPresent(true);
+  }
+
+  function setPresent(on) {
+    clearPresentTimers();
     presentBtn.setAttribute("aria-pressed", on ? "true" : "false");
     bar.classList.toggle("on", on);
-    if (!on) { bar.querySelector("i").style.width = "0%"; return; }
-    var fill = bar.querySelector("i"), elapsed = 0;
+    var fill = bar.querySelector("i");
+
+    // Always reset the visual before scheduling a new countdown, so a
+    // manual turn cannot inherit a partially completed progress bar.
+    fill.style.width = "0%";
+    if (!on) return;
+
+    var elapsed = 0;
     tick = setInterval(function () {
-      elapsed += 100;
+      elapsed += TICK_MS;
       fill.style.width = Math.min(100, (elapsed / SLIDE_MS) * 100) + "%";
-    }, 100);
+    }, TICK_MS);
     timer = setInterval(function () {
       elapsed = 0; fill.style.width = "0%";
-      if (index >= total - 1) goTo(0); else next();
+      // Keep the existing loop, but mark this as an automatic transition so
+      // it does not tear down and recreate the intervals it is running in.
+      if (index >= total - 1) goTo(0, true); else next(true);
     }, SLIDE_MS);
   }
   function togglePresent() { setPresent(presentBtn.getAttribute("aria-pressed") !== "true"); }
