@@ -5,10 +5,17 @@
 
   /* ---------------------------------------------------------------
      Hotspots on the artwork.
-     Fractions of the slide image (0 to 1). go = target slide (1 based).
+     Fractions of the visible slide image (0 to 1). `all` applies to every
+     slide; a numbered entry can be added later to override it per slide.
+     go = target slide (1 based).
      --------------------------------------------------------------- */
   var HOTSPOTS = {
-    // 2: [{ x: .08, y: .12, w: .1, h: .16, go: 5, label: "apple" }],
+    all: [
+      // Upper-left third: opens the pen's destination.
+      { x: 0, y: 0, w: 0.33, h: 0.10, go: 2, label: "pen" },
+      // Upper-right edge: opens the apple's secondary destination.
+      { x: 0.82, y: 0, w: 0.18, h: 0.25, go: 3, label: "apple" }
+    ]
   };
 
   /* ---------------------------------------------------------------
@@ -147,23 +154,50 @@
   }
 
   /* ---------------- hotspots ---------------- */
-  function imageRect() {
-    var img = pages[index].querySelector("img");
-    var nw = img.naturalWidth || 16, nh = img.naturalHeight || 9;
-    var cw = book.clientWidth, ch = book.clientHeight;
-    var s = Math.min(cw / nw, ch / nh);
-    return { left: (cw - nw * s) / 2, top: (ch - nh * s) / 2, w: nw * s, h: nh * s };
+  function imageRect(i) {
+    var img = pages[i].querySelector("img");
+    if (!img || !img.naturalWidth || !img.naturalHeight) return null;
+
+    // The img element fills the page, while object-fit: contain can leave
+    // letterboxing around the artwork. Convert that element's rendered box
+    // into the actual visible artwork box, relative to the hotspot layer.
+    var imgBox = img.getBoundingClientRect();
+    var layerBox = spots.getBoundingClientRect();
+    var scale = Math.min(imgBox.width / img.naturalWidth, imgBox.height / img.naturalHeight);
+    var w = img.naturalWidth * scale;
+    var h = img.naturalHeight * scale;
+
+    return {
+      left: imgBox.left - layerBox.left + (imgBox.width - w) / 2,
+      top: imgBox.top - layerBox.top + (imgBox.height - h) / 2,
+      w: w,
+      h: h
+    };
+  }
+
+  function pointIsInImage(e, r) {
+    var layerBox = spots.getBoundingClientRect();
+    var x = e.clientX - layerBox.left;
+    var y = e.clientY - layerBox.top;
+    return x >= r.left && x <= r.left + r.w && y >= r.top && y <= r.top + r.h;
   }
 
   function renderHotspots(i) {
     spots.innerHTML = "";
-    var list = HOTSPOTS[i + 1];
+    var list = HOTSPOTS[i + 1] || HOTSPOTS.all;
     if (!list || !list.length) return;
-    var r = imageRect();
+    var r = imageRect(i);
+    if (!r) return;
     list.forEach(function (hs) {
+      // Reject malformed fractions rather than placing a clickable control
+      // beyond the artwork's edge.
+      if (hs.x < 0 || hs.y < 0 || hs.w <= 0 || hs.h <= 0 || hs.x + hs.w > 1 || hs.y + hs.h > 1) return;
+
       var b = document.createElement("button");
       b.className = "hotspot";
       b.type = "button";
+      // Convert the fractional image coordinates to pixels in the rendered
+      // image rectangle. Re-running this on resize keeps hit areas aligned.
       b.style.left = (r.left + hs.x * r.w) + "px";
       b.style.top = (r.top + hs.y * r.h) + "px";
       b.style.width = (hs.w * r.w) + "px";
@@ -178,6 +212,13 @@
   window.addEventListener("resize", function () {
     renderHotspots(index);
     if (chart) chart.resize();
+  });
+
+  pages.forEach(function (page, i) {
+    var img = page.querySelector("img");
+    img.addEventListener("load", function () {
+      if (i === index) renderHotspots(index);
+    });
   });
 
   /* ---------------- page turning ---------------- */
@@ -237,6 +278,9 @@
   book.addEventListener("click", function (e) {
     if (e.target.closest(".hotspot")) return;
     if (panel.classList.contains("open")) return;
+    var r = imageRect(index);
+    // Ignore clicks in letterboxing or outside the active artwork entirely.
+    if (!r || !pointIsInImage(e, r)) return;
     if (e.clientX / window.innerWidth < 0.12) prev(); else next();
   });
 
