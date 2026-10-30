@@ -23,14 +23,14 @@
      the slide being entered, not the zero-based `pages` array position.
      --------------------------------------------------------------- */
   var TRANSITION_AUDIO = {
-    1: "flip-ambient.m4a",
-    2: "flip-bright.m4a",
-    3: "flip-rough.m4a",
-    4: "flip-rough.m4a",
-    5: "flip-ambient.m4a",
-    6: "flip-ambient.m4a",
-    7: "flip-uplifting.m4a",
-    8: "flip-bright.m4a",
+    1: "",
+    2: "",
+    3: "",
+    4: "",
+    5: "",
+    6: "",
+    7: "",
+    8: "",
     9: ""
   };
 
